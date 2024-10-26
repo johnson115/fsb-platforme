@@ -1,6 +1,6 @@
 import React from 'react';
 import { Home, PenSquare, Calendar, MessageSquare } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import {  NavLink } from 'react-router-dom';
 
 const Drawer = ({ children }) => {
   return (
@@ -19,29 +19,29 @@ const Drawer = ({ children }) => {
         <nav style={{ padding: '2rem 1rem' }}>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {[
-              { icon: <Home size={20} />, text: 'Home' },
-              { icon: <PenSquare size={20} />, text: 'New post' },
-              { icon: <Calendar size={20} />, text: 'Events' },
-              { icon: <MessageSquare size={20} />, text: 'Feedback' },
+              { icon: <Home size={20} />, text: 'Home' , dir: "/" },
+              { icon: <PenSquare size={20} />, text: 'New post', dir : "/CreateNewPost" },
+              { icon: <Calendar size={20} />, text: 'Events' , dir : "/AvailbleEvents" },
+              { icon: <MessageSquare size={20} />, text: 'Feedback' , dir : "/WriteFeedback" },
             ].map((item, index) => (
               <li key={index} style={{ marginBottom: '1rem' }}>
-                <Link
-                  to="#"
+                <NavLink
+                  to={item.dir}
+                  className="links"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     padding: '0.5rem 1rem',
-                    color: 'white',
+                    
                     textDecoration: 'none',
                     borderRadius: '0.25rem',
                     transition: 'background-color 0.2s',
                   }}
-                  onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--main-color)'}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                 
                 >
                   {item.icon}
                   <span style={{ marginLeft: '0.5rem' }}>{item.text}</span>
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>

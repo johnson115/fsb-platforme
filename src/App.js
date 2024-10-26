@@ -3,24 +3,33 @@
 import Home from './component/home';
 
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
 
-const router=createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route path="/" element={<Home/>} />
-    </Route>
-  )
-)
+  Route,
+  Routes,
+} from "react-router-dom";
+import CreatePost from './pages/createPost';
+import Events from './pages/events';
+import Feedback from './pages/feedback';
+import Drawer from './component/Drawer';
+
 
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <>
+     <div className="container"> {/* Wrap both in a container */}
+      <Drawer />
+      <div className="main-content"> {/* Optional: for better styling separation */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/CreateNewPost" element={<CreatePost />} />
+          <Route path="/AvailbleEvents" element={<Events />} />
+          <Route path="/WriteFeedback" element={<Feedback />} />
+        </Routes>
+      </div>
+    </div>
+    
+    </>
   );
 }
 

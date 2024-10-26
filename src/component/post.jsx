@@ -77,8 +77,8 @@ const PostExample = () => {
   return (
     <Post
       profileImg={userImage} // Use the imported image here
-      name="John Doe"
-      content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      name="Johnson"
+      content="fma tofla hsksfjdk dfdgfgff  dgdgfgfgfg gfkjsjdoasnf   dfdfgfkgfjk dfdgffgfhfhf dgjkfgjfgkjfgjfkg fgf klfgkfgfkgj fgkjfkgjdfl;jgs fgjflsfgfjk f slgfjghfsl jsfg jfshsfhgfs h fjksgfjkhgjfklh  fsjhgifbhvuisf  test "
     />
   );
 };

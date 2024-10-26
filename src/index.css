@@ -1,7 +1,13 @@
 :root {
   --main-color: #FFB6C1;
   --secondary-color: #05052b;
-  --background-color: #F5F5F5;
+  --background-color: #c0acac;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Ensure proper box sizing */
 }
 
 body {
@@ -15,22 +21,52 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.container {
+  display: flex; /* Flexbox layout for Drawer and main content */
+}
+
+.Drawer {
+  width: 250px; /* Fixed width for Drawer */
+}
+
+.main-content {
+  flex: 1; /* Allow main content to take remaining space */
+  margin-left: 0; /* No need for margin-left here */
+  overflow: hidden; /* Prevent overflow */
 }
 
 .Home {
-  width: calc(100% - 250px); /* Fixed width calculation */
-  height: auto;
-  margin-left: 250px;
+  max-width: calc(100% - 250px); /* Ensure it does not exceed viewport width */
+  overflow: hidden; /* Prevent overflow */
 }
 
 .content {
   display: flex; /* Use Flexbox */
   flex-direction: column; /* Align items in a column */
-  align-items: center; /* Center items horizontally */
+  align-items: center;
+  justify-content: center; /* Center items horizontally */
   width: 100%;
   height: auto;
   margin: 0 auto; /* Center the content */
-  padding: 40px;
+  padding: 40px; /* Adjust padding as needed */
+  overflow: auto; /* Allow scrolling if content overflows */
+}
+
+.active {
+  background-color: var(--main-color);
+}
+
+.links:hover {
+  background-color: var(--background-color);
+  color: var(--main-color);
+}
+
+.links {
+  color: white;
+}
+h3{
+color:#FFB6C1
 }
