@@ -1,0 +1,36 @@
+:root {
+  --main-color: #FFB6C1;
+  --secondary-color: #05052b;
+  --background-color: #F5F5F5;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.Home {
+  width: calc(100% - 250px); /* Fixed width calculation */
+  height: auto;
+  margin-left: 250px;
+}
+
+.content {
+  display: flex; /* Use Flexbox */
+  flex-direction: column; /* Align items in a column */
+  align-items: center; /* Center items horizontally */
+  width: 100%;
+  height: auto;
+  margin: 0 auto; /* Center the content */
+  padding: 40px;
+}
