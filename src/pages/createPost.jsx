@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, TextField, Card, CardContent, CardHeader, Typography, Alert } from '@mui/material';
-import { AlertCircle } from 'lucide-react';
+import { Button, TextField, Card, CardContent, CardHeader, Alert, CircularProgress } from '@mui/material';
+import { Send, AlertCircle } from 'lucide-react';
+import { createPost } from '../postServices';
 
-export default function CreatePost() {
+export default function CreatePost({ onPostCreated }) {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,14 +24,16 @@ export default function CreatePost() {
       return;
     }
 
-    // Simulating an API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Post submitted:', { name, content });
+      const newPost = await createPost({ name, content });
+      if (typeof onPostCreated === 'function') {
+        onPostCreated(newPost);
+      }
       setSuccess(true);
       setName('');
       setContent('');
     } catch (err) {
+      console.error(err);
       setError('An error occurred while submitting your post');
     } finally {
       setIsSubmitting(false);
@@ -38,68 +41,63 @@ export default function CreatePost() {
   };
 
   return (
-    <>
-    <h2 style={{ color: "#05052b", textAlign: "center", margin: "10px " }}>
-          Create New Post Anonymously & Hint Your Crush
-        </h2>
-    <Card sx={{ maxWidth: 400, mx: 'auto', mt: 4, backgroundColor: '#05052b', borderRadius: 2, boxShadow: 3 }}>
-      <CardHeader>
-        
-      </CardHeader>
+    <Card sx={{ maxWidth: 700, mx: 'auto', mt: 4, backgroundColor: '#303030', borderRadius: 2, boxShadow: 3 }}>
+      <CardHeader
+        title="Create New Post Anonymously & Hint Your Crush"
+        titleTypographyProps={{ variant: 'h5', align: 'center', color: '#FFB6C1' }}
+      />
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <TextField
-              fullWidth
-              label="Your Name (or Nickname)"
-              variant="outlined"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name or nickname"
-              sx={{ backgroundColor: '#ccc' }} // Gray background for input
-            />
-          </div>
-          <div>
-            <TextField
-              fullWidth
-              label="Post Content"
-              variant="outlined"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your hints or message here..."
-              multiline
-              minRows={4}
-              sx={{ marginTop: "10px", backgroundColor: '#ccc' }} // Gray background for textarea
-            />
-          </div>
+          <TextField
+            fullWidth
+            label="Your Name (or Nickname)"
+            variant="outlined"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name or nickname"
+            sx={{ mb: 2, backgroundColor: '#909090' }}
+          />
+          <TextField
+            fullWidth
+            label="Post Content"
+            variant="outlined"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Write your hints or message here..."
+            multiline
+            minRows={4}
+            sx={{ mb: 2, backgroundColor: '#909090' }}
+          />
           {error && (
-            <Alert severity="error" icon={<AlertCircle className="w-4 h-4" />}>
+            <Alert severity="error" icon={<AlertCircle className="w-4 h-4" />} sx={{ mb: 2 }}>
               {error}
             </Alert>
           )}
           {success && (
-            <Alert severity="success">
+            <Alert severity="success" sx={{ mb: 2 }}>
               Your post has been submitted successfully!
             </Alert>
           )}
+          <Button 
+            variant="contained" 
+            color="primary" 
+            type="submit"
+            disabled={isSubmitting} 
+            fullWidth
+            sx={{
+              backgroundColor: '#FFB6C1', 
+              '&:hover': { backgroundColor: '#fa9ba9' },
+            }}
+          >
+            {isSubmitting ? (
+              <CircularProgress size={24} color="inherit" sx={{ mr: 1 }} />
+            ) : (
+              <Send className="w-4 h-4 mr-2" />
+            )}
+            {isSubmitting ? 'Submitting...' : 'Submit Post'}
+          </Button>
         </form>
       </CardContent>
-      <CardContent>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={handleSubmit} 
-          disabled={isSubmitting} 
-          fullWidth
-          sx={{
-            backgroundColor: '#FFB6C1', 
-            '&:hover': { backgroundColor: '#ff9fb1' }, // Custom hover effect
-          }}
-        >
-          {isSubmitting ? 'Submitting...' : 'Submit Post'}
-        </Button>
-      </CardContent>
     </Card>
-    </>
   );
 }

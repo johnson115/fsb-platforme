@@ -1,0 +1,29 @@
+.home-container {
+    padding: 20px;
+  }
+  
+  .loading-message,
+  .error-message,
+  .no-posts-message {
+    background-color: var(--secondary-color);
+    color: white;
+    border: 1px solid #343434;
+    border-radius: 8px;
+    padding: 16px;
+    margin-right: 140px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Additional styles for loading spinner or other UI elements can go here */
+  

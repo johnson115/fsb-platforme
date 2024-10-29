@@ -1,13 +1,13 @@
 :root {
   --main-color: #FFB6C1;
-  --secondary-color: #05052b;
-  --background-color: #c0acac;
+  --secondary-color: #212121;
+  --background-color: #0e0e0e;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box; /* Ensure proper box sizing */
+  box-sizing: border-box;
 }
 
 body {
@@ -25,38 +25,74 @@ code {
 }
 
 .container {
-  display: flex; /* Flexbox layout for Drawer and main content */
+  display: flex;
 }
+.error-message {
+  background-color: #f8d7da; /* Light red background */
+  color: #721c24; /* Dark red text */
+  border: 1px solid #f5c6cb; /* Border matching the light red */
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.success-message {
+  background-color: #d4edda; /* Light green background */
+  color: #155724; /* Dark green text */
+  border: 1px solid #c3e6cb; /* Border matching the light green */
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+  text-align: center;
+}
+
 
 .Drawer {
-  width: 250px; /* Fixed width for Drawer */
+  width: 250px;
+  height: 100vh;
+  background-color: var(--secondary-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
-.main-content {
-  flex: 1; /* Allow main content to take remaining space */
-  margin-left: 0; /* No need for margin-left here */
-  overflow: hidden; /* Prevent overflow */
+.drawer-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--main-color);
+  cursor: pointer;
+  padding: 1rem;
+  position: absolute;
+  right: -48px;
+  top: 0;
 }
 
-.Home {
-  max-width: calc(100% - 250px); /* Ensure it does not exceed viewport width */
-  overflow: hidden; /* Prevent overflow */
+.Drawer nav {
+  padding: 2rem 1rem;
 }
 
-.content {
-  display: flex; /* Use Flexbox */
-  flex-direction: column; /* Align items in a column */
+.Drawer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Drawer li {
+  margin-bottom: 1rem;
+}
+
+.links {
+  display: flex;
   align-items: center;
-  justify-content: center; /* Center items horizontally */
-  width: 100%;
-  height: auto;
-  margin: 0 auto; /* Center the content */
-  padding: 40px; /* Adjust padding as needed */
-  overflow: auto; /* Allow scrolling if content overflows */
-}
-
-.active {
-  background-color: var(--main-color);
+  padding: 0.5rem 1rem;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
 }
 
 .links:hover {
@@ -64,9 +100,61 @@ code {
   color: var(--main-color);
 }
 
-.links {
-  color: white;
+.links span {
+  margin-left: 0.5rem;
 }
-h3{
-color:#FFB6C1
+
+.active {
+  background-color: var(--main-color);
+  color: var(--secondary-color);
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 1rem;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.Home {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 40px;
+  overflow: auto;
+}
+
+h3 {
+  color: var(--main-color);
+}
+
+@media (max-width: 768px) {
+  .Drawer {
+    transform: translateX(-100%);
+  }
+
+  .Drawer.open {
+    transform: translateX(0);
+  }
+
+  .drawer-toggle {
+    display: block;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .main-content.drawer-open {
+    margin-left: 250px;
+  }
 }

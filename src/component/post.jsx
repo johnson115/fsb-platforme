@@ -2,21 +2,35 @@ import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 import userImage from '../img/user.jpg'; // Adjust the path if necessary
 
-const Post = ({ profileImg, name, content }) => {
+const Post = ({ name, content, timestamp }) => {
   const [loveCount, setLoveCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false); // State to track if post is liked
 
   const handleLoveClick = () => {
-    setLoveCount(prevCount => prevCount + 1);
+    if (isLiked) {
+      setLoveCount(prevCount => prevCount - 1); // Decrease count if already liked
+    } else {
+      setLoveCount(prevCount => prevCount + 1); // Increase count if not liked
+    }
+    setIsLiked(prev => !prev); // Toggle the like status
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   return (
     <div style={{
       backgroundColor: 'var(--secondary-color)',
       borderRadius: '8px',
+      border: '1px solid #343434',
       padding: '16px',
       marginBottom: '20px',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       maxWidth: '600px',
+      cursor: 'pointer',
+      userSelect: "none",
     }}>
       <div style={{
         display: 'flex',
@@ -24,7 +38,7 @@ const Post = ({ profileImg, name, content }) => {
         marginBottom: '12px',
       }}>
         <img
-          src={profileImg || userImage} // Use the imported image here
+          src={userImage}
           alt={`${name}'s profile`}
           style={{
             width: '40px',
@@ -47,40 +61,35 @@ const Post = ({ profileImg, name, content }) => {
       }}>
         {content}
       </p>
-      <button
-        onClick={handleLoveClick}
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          color: 'var(--main-color)',
-          fontWeight: 'bold',
-        }}
-      >
-        <Heart
-          size={20}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+        <button
+          onClick={handleLoveClick}
           style={{
-            marginRight: '4px',
-            fill: loveCount > 0 ? 'var(--main-color)' : 'none',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            color: '#FFB6C1', // Change color based on like status
+            fontWeight: 'bold',
           }}
-        />
-        {loveCount}
-      </button>
+        >
+          <Heart size={20} style={{ fill: isLiked ? '#FFB6C1' : 'none' }} /> {/* Change fill color */}
+          <span style={{ marginLeft: '5px' }}>{loveCount}</span>
+        </button>
+        <span style={{
+          fontSize: '12px',
+          color: '#888',
+        }}>
+          {formatDate(timestamp)}
+        </span>
+      </div>
     </div>
   );
 };
 
-// Example usage of the Post component
-const PostExample = () => {
-  return (
-    <Post
-      profileImg={userImage} // Use the imported image here
-      name="Johnson"
-      content="fma tofla hsksfjdk dfdgfgff  dgdgfgfgfg gfkjsjdoasnf   dfdfgfkgfjk dfdgffgfhfhf dgjkfgjfgkjfgjfkg fgf klfgkfgfkgj fgkjfkgjdfl;jgs fgjflsfgfjk f slgfjghfsl jsfg jfshsfhgfs h fjksgfjkhgjfklh  fsjhgifbhvuisf  test "
-    />
-  );
-};
-
-export default PostExample;
+export default Post;
