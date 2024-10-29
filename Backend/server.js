@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
@@ -17,41 +17,59 @@ if (!uri) {
   process.exit(1);
 }
 
-const client = new MongoClient(uri);
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB Atlas'))
+.catch(err => console.error('Error connecting to MongoDB:', err));
 
-async function connectToDatabase() {
+const postSchema = new mongoose.Schema({
+  name: String,
+  content: String,
+  email: String,
+  loveCount: { type: Number, default: 0 },
+  timestamp: { type: Date, default: Date.now }
+});
+
+const Post = mongoose.model('Post', postSchema);
+
+app.get('/api/posts', async (req, res) => {
   try {
-    await client.connect();
-    console.log('Connected to MongoDB Atlas');
-    
-    const database = client.db('posts');
-    const postsCollection = database.collection('posts');
-
-    app.get('/api/posts', async (req, res) => {
-      try {
-        const posts = await postsCollection.find().sort({ timestamp: -1 }).toArray();
-        res.json(posts);
-      } catch (error) {
-        res.status(500).json({ message: error.message });
-      }
-    });
-
-    app.post('/api/posts', async (req, res) => {
-      try {
-        const newPost = { ...req.body, timestamp: new Date() };
-        const result = await postsCollection.insertOne(newPost);
-        res.status(201).json({ ...newPost, _id: result.insertedId });
-      } catch (error) {
-        res.status(400).json({ message: error.message });
-      }
-    });
-
-    app.listen(port, '0.0.0.0', () => {
-      console.log(`Server running on http://0.0.0.0:${port}`);
-    });
+    const posts = await Post.find({}, { email: 0 }).sort({ timestamp: -1 }); // Exclude email field
+    res.json(posts);
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
+    res.status(500).json({ message: error.message });
   }
-}
+});
 
-connectToDatabase();
+app.post('/api/posts', async (req, res) => {
+  try {
+    const { name, content, email } = req.body;
+    const newPost = new Post({ name, content, email, loveCount: 0 });
+    const result = await newPost.save();
+    res.status(201).json({ ...result.toObject(), email: undefined }); // Exclude email from response
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.post('/api/posts/:id/love', async (req, res) => {
+  try {
+    const post = await Post.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { loveCount: 1 } },
+      { new: true, select: '-email' } // Exclude email from response
+    );
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    res.json(post);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${port}`);
+});

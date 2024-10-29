@@ -2,29 +2,20 @@ import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 import userImage from '../img/user.jpg'; // Adjust the path if necessary
 
-const Post = ({ name, content, timestamp }) => {
-  const [loveCount, setLoveCount] = useState(0);
-  const [isLiked, setIsLiked] = useState(false); // State to track if post is liked
+const Post = ({ profileImg, name, content, timestamp, initialLoveCount = 0 }) => {
+  const [loveCount, setLoveCount] = useState(initialLoveCount);
+  const [isLoved, setIsLoved] = useState(false);
 
   const handleLoveClick = () => {
-    if (isLiked) {
-      setLoveCount(prevCount => prevCount - 1); // Decrease count if already liked
-    } else {
-      setLoveCount(prevCount => prevCount + 1); // Increase count if not liked
-    }
-    setIsLiked(prev => !prev); // Toggle the like status
-  };
-
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    setLoveCount(prevCount => prevCount + 1);
+    setIsLoved(true);
   };
 
   return (
     <div style={{
       backgroundColor: 'var(--secondary-color)',
       borderRadius: '8px',
-      border: '1px solid #343434',
+      border: '1px solid #343434' ,
       padding: '16px',
       marginBottom: '20px',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -38,7 +29,7 @@ const Post = ({ name, content, timestamp }) => {
         marginBottom: '12px',
       }}>
         <img
-          src={userImage}
+          src={profileImg || userImage}
           alt={`${name}'s profile`}
           style={{
             width: '40px',
@@ -74,18 +65,25 @@ const Post = ({ name, content, timestamp }) => {
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            color: '#FFB6C1', // Change color based on like status
+            color: 'var(--main-color)',
             fontWeight: 'bold',
           }}
         >
-          <Heart size={20} style={{ fill: isLiked ? '#FFB6C1' : 'none' }} /> {/* Change fill color */}
-          <span style={{ marginLeft: '5px' }}>{loveCount}</span>
+          <Heart
+            size={20}
+            style={{
+              marginRight: '4px',
+              fill: isLoved ? 'var(--main-color)' : 'none',
+              stroke: 'var(--main-color)',
+            }}
+          />
+          {loveCount}
         </button>
         <span style={{
-          fontSize: '12px',
-          color: '#888',
+          fontSize: '0.8em',
+          color: 'var(--main-color)',
         }}>
-          {formatDate(timestamp)}
+          {new Date(timestamp).toLocaleString()}
         </span>
       </div>
     </div>

@@ -21,3 +21,13 @@ export const createPost = async (newPost) => {
   }
   return response.json();
 };
+
+export const lovePost = async (postId) => {
+  const response = await fetch(`${API_URL}/posts/${postId}/love`, {
+    method: 'POST',
+  });
+  if (!response.ok) {
+    throw new Error('Failed to love post');
+  }
+  return response.json();
+};

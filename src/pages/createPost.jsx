@@ -8,6 +8,7 @@ import { createPost } from '../postServices';
 export default function CreatePost({ onPostCreated }) {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
+  const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -18,20 +19,21 @@ export default function CreatePost({ onPostCreated }) {
     setError('');
     setSuccess(false);
 
-    if (!name.trim() || !content.trim()) {
+    if (!name.trim() || !content.trim() || !email.trim()) {
       setError('Please fill in all fields');
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const newPost = await createPost({ name, content });
+      const newPost = await createPost({ name, content, email });
       if (typeof onPostCreated === 'function') {
         onPostCreated(newPost);
       }
       setSuccess(true);
       setName('');
       setContent('');
+      setEmail('');
     } catch (err) {
       console.error(err);
       setError('An error occurred while submitting your post');
@@ -55,6 +57,16 @@ export default function CreatePost({ onPostCreated }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name or nickname"
+            sx={{ mb: 2, backgroundColor: '#909090' }}
+          />
+          <TextField
+            fullWidth
+            label="Your Email"
+            variant="outlined"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
             sx={{ mb: 2, backgroundColor: '#909090' }}
           />
           <TextField
