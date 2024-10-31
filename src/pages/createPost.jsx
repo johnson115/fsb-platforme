@@ -43,7 +43,7 @@ export default function CreatePost({ onPostCreated }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 700, mx: 'auto', mt: 4, backgroundColor: '#303030', borderRadius: 2, boxShadow: 3 }}>
+    <Card sx={{ maxWidth: 700,  mx: 'auto', mt: 4, backgroundColor: '#303030', borderRadius: 2, boxShadow: 3 }}>
       <CardHeader
         title="Create New Post Anonymously & Hint Your Crush"
         titleTypographyProps={{ variant: 'h5', align: 'center', color: '#FFB6C1' }}
@@ -57,7 +57,7 @@ export default function CreatePost({ onPostCreated }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name or nickname"
-            sx={{ mb: 2, backgroundColor: '#909090' }}
+            sx={{ mb: 2, backgroundColor: '#909090' , zIndex:'0' }}
           />
           <TextField
             fullWidth

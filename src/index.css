@@ -26,6 +26,7 @@ code {
 
 .container {
   display: flex;
+  
 }
 .error-message {
   background-color: #f8d7da; /* Light red background */
@@ -51,6 +52,7 @@ code {
 .Drawer {
   width: 250px;
   height: 100vh;
+  z-index: 100; 
   background-color: var(--secondary-color);
   position: fixed;
   top: 0;

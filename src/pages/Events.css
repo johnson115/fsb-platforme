@@ -1,0 +1,67 @@
+.events-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    background-color: #303030; /* Updated background color */
+    text-align: center;
+    margin-left: 250px; /* Space for the fixed drawer on larger screens */
+  }
+  
+  @media (max-width: 908px) {
+    .events-container {
+      margin-left: 0; /* No margin for mobile view */
+      padding-left: 10px;
+      padding-right: 10px;
+      margin: 20px; /* Add some padding for mobile */
+    }
+  }
+  
+  .events-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in;
+    color: #fff; /* Title color */
+  }
+  
+  .events-message, .events-update {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    animation: fadeIn 1.5s ease-in;
+    color: #fff; /* Message color */
+  }
+  
+  .animation {
+    margin-top: 20px;
+  }
+  
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #FFB6C1; /* Updated spinner color */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Centering the content */
+  @media (min-width: 769px) {
+    .events-container {
+      flex-grow: 1; /* Allow the container to grow */
+      max-width: calc(100% - 250px); /* Account for the drawer width */
+      margin: 0 auto; /* Center the container */
+    }
+  }
+  
+  /* Animation Keyframes */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
