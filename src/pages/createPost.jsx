@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button, TextField, Card, CardContent, CardHeader, Alert, CircularProgress } from '@mui/material';
 import { Send, AlertCircle } from 'lucide-react';
 import { createPost } from '../postServices';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreatePost({ onPostCreated }) {
   const [name, setName] = useState('');
@@ -12,6 +13,7 @@ export default function CreatePost({ onPostCreated }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const Navigate=useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,6 +109,7 @@ export default function CreatePost({ onPostCreated }) {
               <Send className="w-4 h-4 mr-2" />
             )}
             {isSubmitting ? 'Submitting...' : 'Submit Post'}
+            {success ? Navigate("/") : '' }
           </Button>
         </form>
       </CardContent>

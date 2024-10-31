@@ -4,6 +4,8 @@
     align-items: center;
     justify-content: center;
     min-height: 70vh;
+    border:1px solid #FFB6C1;
+    border-radius: 12px;
     background-color: #303030; /* Updated background color */
     text-align: center;
     margin-left: 250px; /* Space for the fixed drawer on larger screens */
@@ -11,10 +13,10 @@
   
   @media (max-width: 908px) {
     .events-container {
-      margin-left: 0; /* No margin for mobile view */
+      margin-left: 0; 
       padding-left: 10px;
       padding-right: 10px;
-      margin: 20px; /* Add some padding for mobile */
+      margin: 20px; 
     }
   }
   
