@@ -1,0 +1,106 @@
+.Drawer {
+    width: 250px;
+    height: 100vh;
+    z-index: 100; 
+    background-color: var(--secondary-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+  
+ 
+  
+  .drawer-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--main-color);
+    cursor: pointer;
+    padding: 1rem;
+    position: absolute;
+    right: -48px;
+    top: 0;
+  }
+  
+  
+  .Drawer nav {
+    padding: 1rem 0.5rem;
+  }
+  
+  .Drawer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .Drawer li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .links {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  .links:hover {
+    background-color: var(--background-color);
+    color: var(--main-color);
+  }
+  
+  .icon-container {
+    min-width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .link-text {
+    margin-left: 0.75rem;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .mini .link-text {
+    opacity: 0;
+    width: 0;
+    margin-left: 0;
+  }
+  
+  .active {
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+  }
+  
+  .main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 1rem;
+    transition: margin-left 0.3s ease-in-out;
+  }
+  
+  .main-content.drawer-mini {
+    margin-left: 70px;
+  }
+  
+  @media screen and (max-width: 900px) {
+    .drawer-toggle {
+      display: block;
+    }
+  
+    .main-content {
+      margin-left: 70px;
+    }
+  
+    .main-content.drawer-open {
+      margin-left: 250px;
+    }
+  }

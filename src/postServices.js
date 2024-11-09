@@ -1,71 +1,112 @@
 import API_URL from './config';
 
-export const fetchPosts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/posts`);
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to fetch posts');
-    }
-    return response.json();
-  } catch (error) {
-    console.error('Error in fetchPosts:', error);
-    throw error;
+
+
+function ensureUserId() {
+  let userId = localStorage.getItem('userId');
+  if (!userId) {
+    userId = 'user_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('userId', userId);
   }
-};
+  return userId ;
+}
 
 export const createPost = async (newPost) => {
   try {
-    const response = await fetch(`${API_URL}/posts`, {
+    console.log('Sending post data:', newPost);
+    
+    const response = await fetch(`${API_URL}/posts.js`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newPost),
+      body: JSON.stringify({
+        name: newPost.name,
+        content: newPost.content,
+        email: newPost.email,
+        gender: newPost.gender
+      }),
     });
+    
+    console.log('Response status:', response.status);
     
     if (!response.ok) {
       const errorData = await response.json();
+      console.error('Server error response:', errorData);
       throw new Error(errorData.message || 'Failed to create post');
     }
     
-    return response.json();
+    const data = await response.json();
+    console.log('Server response:', data);
+    return data;
   } catch (error) {
     console.error('Error in createPost:', error);
     throw error;
   }
 };
 
-export const toggleLovePost = async (postId, action) => {
+export const fetchPosts = async () => {
   try {
-    const userId = localStorage.getItem('userId') || generateUserId();
-    localStorage.setItem('userId', userId);
+    const response = await fetch(`${API_URL}/posts.js`);
+    console.log('Response Status:', response.status);
+    console.log('Response Headers:', response.headers);
 
-    const response = await fetch(`${API_URL}/posts/${postId}/love`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ action, userId }),
-    });
-    
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to update love status');
+      console.error('Error fetching posts:', errorData);
+      throw new Error(errorData.message || 'Failed to fetch posts');
     }
     
-    return response.json();
+    const data = await response.json();
+    console.log('Fetched posts:', data);
+    return data;
+  } catch (error) {
+    console.error('Error in fetchPosts:', error);
+    throw error;
+  }
+};
+
+
+export const toggleLovePost = async (postId, action) => {
+  try {
+    console.log('Sending love request:', { postId, action });
+    
+    const userId = ensureUserId();
+
+    const response = await fetch(`${API_URL}/love.js?id=${postId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action: action,
+        userId: userId
+      })
+    });
+
+    console.log('Response status:', response.status);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Server error response:', errorData);
+      throw new Error(errorData.message || 'Failed to update love status');
+    }
+
+    const data = await response.json();
+    console.log('Server response:', data);
+    return data;
   } catch (error) {
     console.error('Error in toggleLovePost:', error);
     throw error;
   }
 };
 
+
 export const addComment = async (postId, content) => {
   try {
-    console.log('Sending comment request:', { postId, content }); // Debug log
+    console.log('Sending comment request:', { postId, content });
     
-    const response = await fetch(`${API_URL}/posts/${postId}/comments`, {
+    const response = await fetch(`${API_URL}/comments.js?id=${postId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,16 +114,16 @@ export const addComment = async (postId, content) => {
       body: JSON.stringify({ content }),
     });
 
-    console.log('Response status:', response.status); // Debug log
+    console.log('Response status:', response.status);
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('Server error:', errorData); // Debug log
+      console.error('Server error:', errorData);
       throw new Error(errorData.message || 'Failed to add comment');
     }
 
     const data = await response.json();
-    console.log('Comment added successfully:', data); // Debug log
+    console.log('Comment added successfully:', data);
     return data;
   } catch (error) {
     console.error('Error in addComment:', error);
@@ -90,9 +131,7 @@ export const addComment = async (postId, content) => {
   }
 };
 
-function generateUserId() {
-  return 'user_' + Math.random().toString(36).substr(2, 9);
-}
+
 
 export default {
   fetchPosts,

@@ -1,5 +1,5 @@
 import React from 'react';
-import defaultUserImage from '../img/user.png';
+import defaultUserImage from '../img/images.jpg';
 
 const Comment = ({ content, timestamp, name = "Unknown", profileImg = defaultUserImage }) => {
   return (

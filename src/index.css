@@ -23,11 +23,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+legend{
+  color:white;
+}
 
 .container {
   display: flex;
   
 }
+
+
+
 .error-message {
   background-color: #f8d7da; /* Light red background */
   color: #721c24; /* Dark red text */
@@ -54,11 +60,15 @@ code {
   height: 100vh;
   z-index: 100; 
   background-color: var(--secondary-color);
+  background-image: url("./img/bg.png");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: contain;
   position: fixed;
   top: 0;
   left: 0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .drawer-toggle {
@@ -111,11 +121,62 @@ code {
   color: var(--secondary-color);
 }
 
-.main-content {
+
+
+@media screen and (max-width: 900px) {
+  
+  .drawersIcon{
+    position: fixed;
+    margin-left: 230px;
+    margin-bottom: 100px;
+    transition: all 1s;
+    
+    
+  }
+  .iconsOpening{
+    position: relative;
+    margin-left: 0;
+    margin-bottom: 0;
+    transition: all 1s;
+  }
+  .Drawer.open {
+    width: 250px;
+  }
+
+  .Drawer:not(.open) .links span {
+    display: none;
+  }
+
+  .drawer-toggle {
+    display: block;
+  }
+ 
+
+  
+
+  .main-content.drawer-open {
+    margin-left: 250px;
+  }
+}
+.main-home{
   flex: 1;
   margin-left: 250px;
   padding: 1rem;
   transition: margin-left 0.3s ease-in-out;
+}
+.main-content {
+  flex: 1;
+  margin-left: 100px;
+  padding: 1rem;
+  transition: margin-left 0.3s ease-in-out;
+}
+@media screen and (max-width:900px){
+  .main-content{
+    margin-left: 0;
+  }
+  .main-home{
+    margin-left: 0;
+  }
 }
 
 .Home {

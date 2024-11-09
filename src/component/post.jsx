@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, MessageCircle } from 'lucide-react';
-import userImage from '../img/user.jpg';
-import defaultUserImage from '../img/user.png';
+
+import defaultUserImage from '../img/images.jpg';
+
 import { toggleLovePost, addComment } from '../postServices';
 import Comment from './comment';
 
@@ -22,15 +23,15 @@ const Post = ({ _id, profileImg, name, content, timestamp, initialLoveCount = 0,
 
   const handleLoveClick = async () => {
     if (isUpdating) return;
-
+  
     try {
       setIsUpdating(true);
       const action = isLoved ? 'unlike' : 'like';
       const updatedPost = await toggleLovePost(_id, action);
-      
+  
       setLoveCount(updatedPost.loveCount);
       setIsLoved(!isLoved);
-
+  
       const lovedPosts = JSON.parse(localStorage.getItem('lovedPosts') || '{}');
       if (!isLoved) {
         lovedPosts[_id] = true;
@@ -44,6 +45,7 @@ const Post = ({ _id, profileImg, name, content, timestamp, initialLoveCount = 0,
       setIsUpdating(false);
     }
   };
+  
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -71,7 +73,8 @@ const Post = ({ _id, profileImg, name, content, timestamp, initialLoveCount = 0,
     <div style={{
       backgroundColor: 'var(--secondary-color)',
       borderRadius: '8px',
-      border: '1px solid #343434',
+      border:'1px solid #707070',
+      
       padding: '16px',
       marginBottom: '20px',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -83,7 +86,7 @@ const Post = ({ _id, profileImg, name, content, timestamp, initialLoveCount = 0,
         marginBottom: '12px',
       }}>
         <img
-          src={profileImg || userImage}
+          src={profileImg}
           alt={`${name}'s profile`}
           style={{
             width: '40px',
@@ -185,6 +188,7 @@ const Post = ({ _id, profileImg, name, content, timestamp, initialLoveCount = 0,
                 backgroundColor: 'var(--secondary-color)',
                 color: 'white',
                 marginBottom: '8px',
+                fontSize:'16px',
               }}
             />
             {commentError && (
